@@ -1,6 +1,6 @@
 import 'dart:typed_data'; // Enable additional file types
 import 'dart:convert'; // Convert to Base64
-import 'dart:io'; // Read file data
+// Read file data
 
 import 'package:camera_app/API/api_service.dart';
 import 'package:flutter/material.dart';

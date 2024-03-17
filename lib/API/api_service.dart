@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:universal_io/io.dart';
-import 'api_constants.dart';
 
 class ApiService {
   Future<void> saveImage(String imageBase64) async {
