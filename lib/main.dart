@@ -100,7 +100,7 @@ class RootScreen extends StatelessWidget {
 late List<CameraDescription> _cameras;
 
 class CameraApp extends StatefulWidget {
-  const CameraApp({super.key});
+  const CameraApp({super.key, cameraController, apiService});
 
   @override
   State<CameraApp> createState() => _CameraAppState();
@@ -108,7 +108,9 @@ class CameraApp extends StatefulWidget {
 
 class _CameraAppState extends State<CameraApp> {
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+
   final ApiService apiService = ApiService();
+  
   final LocalStorage storage = LocalStorage('camera_app_images.json');
 
   late CameraController controller;
