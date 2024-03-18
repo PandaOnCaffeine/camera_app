@@ -1,13 +1,9 @@
-// import 'dart:typed_data'; // Enable additional file types
-// import 'dart:convert'; // Convert to Base64
-// import 'dart:io'; // Read file data
-
+// Flutter Imports
 import 'package:flutter/material.dart';
 
 // Pub.Dev Packages
 import 'package:go_router/go_router.dart';
 import 'package:camera/camera.dart';
-import 'package:localstorage/localstorage.dart';
 
 // My Widgets
 import 'Widgets/burger_widget.dart';
@@ -21,48 +17,32 @@ import 'Screens/camera_screen.dart';
 // My Services
 import 'API/api_service.dart';
 
-// Firebase
+// Firebase Imports
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 /// Things to make:
-///
-/// Isolate
-/// Compute
-/// Integration Test
-/// JWT Tokens
+/// 
+/// JWT Tokens - Done
+/// Repository Pattern - WIP
+/// Integration Test - WIP
+/// Isolate - WIP
+/// Compute - Done
 
-/// JWT Token
-///
-/// access token
-/// refresh token
-///
-/// _apiEnsureValidToken()
-///
-/// Securestorage for tokens
-///
-/// add header authorization: asscess token
-///
-/// Login endpiint call
-/// with
-/// username and password
-///
 
 /// Services and other properties
-///
-///
-/// ShellNavigatorKey for Routing
+// ShellNavigatorKey for Routing
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-/// ApiService for the screens that need the ApiService
+// ApiService for the screens that need the ApiService
 final ApiService _apiService = ApiService();
 
-/// List of cameras for the camera Screen.
+// List of cameras for the camera Screen.
 late List<CameraDescription> _cameras;
 
 /// Main method
-/// Start the app
+/// Starts the app
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -128,7 +108,7 @@ class MyApp extends StatelessWidget {
 }
 
 /// Root Screen
-/// The Screen that My app starts on
+/// The Screen that My app starts on with appBar And BurgerMenu
 class RootScreen extends StatelessWidget {
   final Widget child;
 

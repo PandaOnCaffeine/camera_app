@@ -1,4 +1,7 @@
+// Flutter Imports
 import 'package:flutter/material.dart';
+
+// Pub.Dev Packages
 import 'package:go_router/go_router.dart';
 
 class BurgerMenuWidget extends StatelessWidget {

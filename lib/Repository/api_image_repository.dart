@@ -1,13 +1,18 @@
 import 'dart:convert';
-import 'package:universal_io/io.dart';
-import 'package:localstorage/localstorage.dart';
 
 import 'package:flutter/foundation.dart';
 
-class ApiService {
+import 'package:universal_io/io.dart';
+import 'package:localstorage/localstorage.dart';
+
+// My Image Repository
+import 'image_repository.dart';
+
+class ApiImageRepository implements ImageRepository {
   final String _apiUri = "https://10.0.2.2:7044";
   final storage = LocalStorage('my_jwt_data.json');
 
+  @override
   Future<void> saveImage(String imageBase64) async {
     try {
       // Get Jwt Token
@@ -77,6 +82,7 @@ class ApiService {
     }
   }
 
+  @override
   Future<List<String>> getImages() async {
     try {
       // Get Jwt Token
@@ -164,8 +170,10 @@ class ApiService {
       // Check the response status code
       if (response.statusCode == HttpStatus.ok) {
         // If the server returns a 200 OK response
+
         storage.ready;
         storage.setItem('jwt_key', response);
+        // storage.setItem('refresh_key', value)
       } else {
         // If the server did not return a 200 OK response, throw an exception
         throw Exception('Error: ${response.statusCode}');

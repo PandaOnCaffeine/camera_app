@@ -1,27 +1,25 @@
-import 'dart:typed_data'; // Enable additional file types
-import 'dart:convert'; // Convert to Base64
-import 'dart:io'; // Read file data
+// Dart Imports
+import 'dart:typed_data'; 
+import 'dart:convert'; 
+import 'dart:io'; 
 
+// Flutter Imports
 import 'package:flutter/material.dart';
 
 // Pub.Dev Packages
 import 'package:go_router/go_router.dart';
 import 'package:camera/camera.dart';
-import 'package:localstorage/localstorage.dart';
-
-// My Widgets
-
-// My Screens
 
 // My Services
 import '../API/api_service.dart';
 
 /// Things to make:
 /// 
-/// Isolate
-/// Compute
-/// Integration Test
-/// JWT Tokens
+/// JWT Tokens - Done
+/// Repository Pattern - WIP
+/// Integration Test - WIP
+/// Isolate - WIP
+/// Compute - Done
 
 
 class CameraApp extends StatefulWidget {
@@ -34,23 +32,18 @@ class CameraApp extends StatefulWidget {
 }
 
 class _CameraAppState extends State<CameraApp> {
+  /// Scaffold Key for snackBar further down in the class
   final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-
-  // final LocalStorage storage = LocalStorage('camera_app_images.json');
 
   late CameraController controller;
 
   Uint8List imageData = Uint8List(0);
   String imageBase64 = "";
-  List<String> images = [];
 
   @override
   void initState() {
     super.initState();
     controller = CameraController(widget.cameras[0], ResolutionPreset.max);
-    // var imagesFromStorage = storage.getItem('images');
-    // images =
-    //     imagesFromStorage != null ? List<String>.from(imagesFromStorage) : [];
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -60,7 +53,7 @@ class _CameraAppState extends State<CameraApp> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            // Handle access errors here.
+            // Handle CameraAccessDenied errors here.
             break;
           default:
             // Handle other errors here.
@@ -119,25 +112,8 @@ class _CameraAppState extends State<CameraApp> {
                       /// Api
                       await widget.apiService.saveImage(imageBase64);
 
-                      
-                      /*/// Localstorage
-                      // List<String> images = [];
-                      // dynamic storedImages = storage.getItem('images');
-                      // if (storedImages != null &&
-                      //     storedImages is List<dynamic>) {
-                      //   images = storedImages.cast<String>();
-                      // } else {
-                      //   // Handle the case where the stored images are null or not of the expected type
-                      // }
-
-                      // // Add the new image to the list
-                      // images.add(imageString);
-
-                      // // Save the list back to localstorage
-                      // await storage.ready;
-                      // storage.setItem('images', images);
-                      ///
-                      */
+                      /// Local
+                      // await widget.localImageRepository.saveImage(imageBase64);
 
                       // Show snackbar
                       ScaffoldMessenger.of(context).showSnackBar(

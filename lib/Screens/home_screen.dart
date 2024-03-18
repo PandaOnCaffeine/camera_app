@@ -1,6 +1,8 @@
+// Flutter Imports
 import 'package:flutter/material.dart';
 
-/// The home screen
+/// My Home screen
+/// The first thing you on the app
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
