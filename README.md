@@ -22,3 +22,6 @@ samples, guidance on mobile development, and a full API reference.
 `Flutter pub add camera`
 `Flutter pub add localstorage`
 `flutter pub add universal_io`
+
+`flutter pub add firebase_core`
+`flutter pub add firebase_messaging`

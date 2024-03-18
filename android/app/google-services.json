@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1093240575614",
+    "project_id": "camerapushnotification-a19d6",
+    "storage_bucket": "camerapushnotification-a19d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093240575614:android:42406c29c208eec52daa2f",
+        "android_client_info": {
+          "package_name": "com.example.camera_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe4HuK1MA_cxuvdFqz_tF79QfJlGqC70A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

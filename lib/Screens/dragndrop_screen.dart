@@ -51,30 +51,32 @@ class _DragNDropScreenScreenState extends State<DragNDropScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: droppedItems.isNotEmpty
-                  ? DecorationImage(
-                      image: MemoryImage(droppedItems.last.imageData),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
-            ),
-            child: Stack(
-              children: droppedItems.map((droppedItem) {
-                return Positioned(
-                  left: droppedItem.position.dx,
-                  top: droppedItem.position.dy,
-                  child: droppedItem.widget,
-                );
-              }).toList(),
+          Expanded(
+            flex: 4,
+            child: Container(
+              height: MediaQuery.of(context).size.height * 1,
+              decoration: BoxDecoration(
+                image: droppedItems.isNotEmpty
+                    ? DecorationImage(
+                        image: MemoryImage(droppedItems.last.imageData),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.2,
-            color: Color.fromARGB(255, 0, 0, 0),
+          // Container(
+          //   height: MediaQuery.of(context).size.height * 0.6,
+          //   decoration: BoxDecoration(
+          //     image: droppedItems.isNotEmpty
+          //         ? DecorationImage(
+          //             image: MemoryImage(droppedItems.last.imageData),
+          //             fit: BoxFit.cover,
+          //           )
+          //         : null,
+          //   ),
+          // ),
+          Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
@@ -104,7 +106,41 @@ class _DragNDropScreenScreenState extends State<DragNDropScreen> {
                 );
               },
             ),
-          )
+          ),
+          // Container(
+          //   // clipBehavior: Clip.antiAlias,
+          //   height: MediaQuery.of(context).size.height * 0.2,
+          //   color: const Color.fromARGB(255, 0, 0, 0),
+          //   child: ListView.builder(
+          //     scrollDirection: Axis.horizontal,
+          //     itemCount: images.length,
+          //     itemBuilder: (context, index) {
+          //       Uint8List imageData = base64Decode(images[index]);
+
+          //       Widget imageWidget = SizedBox(
+          //         width: 100,
+          //         child: Image.memory(
+          //           imageData,
+          //           height: MediaQuery.of(context).size.height * 0.2,
+          //         ),
+          //       );
+          //       return LongPressDraggable<Widget>(
+          //         data: imageWidget,
+          //         feedback: imageWidget,
+          //         child: imageWidget,
+          //         onDragEnd: (details) {
+          //           setState(() {
+          //             droppedItems.add(DroppedItem(
+          //               widget: imageWidget,
+          //               position: details.offset,
+          //               imageData: imageData,
+          //             ));
+          //           });
+          //         },
+          //       );
+          //     },
+          //   ),
+          // )
         ],
       ),
     );
