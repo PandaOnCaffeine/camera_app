@@ -38,6 +38,9 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 // ApiService for the screens that need the ApiService
 final ApiService _apiService = ApiService();
 
+// NOtification service
+final ForegroundNotificationService _notificationService = ForegroundNotificationService();
+
 // List of cameras for the camera Screen.
 late List<CameraDescription> _cameras;
 
@@ -48,10 +51,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  requestNotificationPermissions();
+  _notificationService.requestNotificationPermissions();
+  _notificationService.firebaseInit();
   _cameras = await availableCameras();
   final fcmToken = await FirebaseMessaging.instance.getToken();
-  print("Fcm Token: $fcmToken");
+  debugPrint("Fcm Token: $fcmToken");
   runApp(const MyApp());
 }
 

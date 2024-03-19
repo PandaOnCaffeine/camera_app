@@ -99,15 +99,15 @@ class _CameraAppState extends State<CameraApp> {
                     shape: const CircleBorder(),
                     onPressed: () async {
                       XFile file = await controller.takePicture();
-                      print('Picture saved at ${file.path}');
+                      debugPrint('Picture saved at ${file.path}');
 
                       // Read the file
                       imageData = await File(file.path).readAsBytes();
-                      print('ImageData : $imageData');
+                      debugPrint('ImageData : $imageData');
 
                       // Encode image data to base64
                       imageBase64 = base64Encode(imageData);
-                      print('Base64 Encoded: Length: ${imageBase64.length} : $imageBase64');
+                      debugPrint('Base64 Encoded: Length: ${imageBase64.length} : $imageBase64');
 
                       /// Api
                       await widget.apiService.saveImage(imageBase64);

@@ -77,7 +77,7 @@ class _DragNDropScreenScreenState extends State<DragNDropScreen> {
                   width: 100,
                   child: Image.memory(
                     imageData,
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: MediaQuery.of(context).size.height * 0.5,
                   ),
                 );
                 return LongPressDraggable<Widget>(

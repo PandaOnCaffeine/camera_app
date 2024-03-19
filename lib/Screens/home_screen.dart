@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
               child: const Icon(Icons.login),
               onPressed: () {
                 apiService.login();
-                print("Login Clicked");
+                debugPrint("Login Clicked");
               },
             )
           ],

@@ -19,7 +19,7 @@ class ApiImageRepository implements ImageRepository {
       storage.ready;
       final String jwt = storage.getItem('jwt_key');
       if(jwt.isEmpty){
-        print("No JWT TOKEN");
+        debugPrint("No JWT TOKEN");
         return;
       }
 
@@ -27,7 +27,7 @@ class ApiImageRepository implements ImageRepository {
       // BaseUrl With Endpoint
       String uriString = "$_apiUri/Camera/PostImage";
       var uri = Uri.parse(uriString);
-      print('API uri: $uri');
+      debugPrint('API uri: $uri');
 
       // Encode the request body
       Map<String, String> requestBody = {
@@ -53,7 +53,7 @@ class ApiImageRepository implements ImageRepository {
 
       // Write the request body
       request.write(requestBodyJson);
-      print('API requestBodyJson: $requestBodyJson');
+      debugPrint('API requestBodyJson: $requestBodyJson');
 
       // Close the request and get the response
       HttpClientResponse response = await request.close();
@@ -67,7 +67,7 @@ class ApiImageRepository implements ImageRepository {
         /// Compute
         final parsedResponse = await compute(jsonDecode,responseBody);
         ///
-        print('Response: $parsedResponse');
+        debugPrint('Response: $parsedResponse');
       } else {
         // If the server did not return a 200 OK response, throw an exception
         throw Exception('Failed to save image: ${response.statusCode}');
@@ -77,7 +77,7 @@ class ApiImageRepository implements ImageRepository {
       httpClient.close();
     } catch (e) {
       // Handle exceptions
-      print('Error: $e');
+      debugPrint('Error: $e');
       throw Exception('Failed to save image: $e');
     }
   }
@@ -91,10 +91,10 @@ class ApiImageRepository implements ImageRepository {
 
       // BaseUrl With Endpoint
       String uriString = "$_apiUri/Camera/GetImages";
-      print('API uriString: $uriString');
+      debugPrint('API uriString: $uriString');
 
       var uri = Uri.parse(uriString);
-      print('API uri: $uri');
+      debugPrint('API uri: $uri');
 
       HttpClient httpClient = HttpClient()
         ..badCertificateCallback =
@@ -109,20 +109,20 @@ class ApiImageRepository implements ImageRepository {
 
       // Close the request and get the response
       HttpClientResponse response = await request.close();
-      print("Api response: $response");
+      debugPrint("Api response: $response");
       // Check the response status code
       if (response.statusCode == HttpStatus.ok) {
         // If the server returns a 200 OK response, parse the JSON
         String responseBody = await response.transform(utf8.decoder).join();
         List<dynamic> jsonList = jsonDecode(responseBody);
 
-        print("Api jsonList: $jsonList");
+        debugPrint("Api jsonList: $jsonList");
         List<String> imageBase64List = jsonList
             .map((image) => image['imageBase64'])
             .cast<String>()
             .toList();
 
-        print(
+        debugPrint(
             "Api imageBase64 1: length: ${imageBase64List[0].length} : ${imageBase64List[0]}");
         return imageBase64List;
       } else {
@@ -131,7 +131,7 @@ class ApiImageRepository implements ImageRepository {
       }
     } catch (e) {
       // Handle exceptions
-      print('Error: $e');
+      debugPrint('Error: $e');
       throw Exception('Failed to get images: $e');
     }
   }
@@ -166,7 +166,7 @@ class ApiImageRepository implements ImageRepository {
 
       // Close the request and get the response
       HttpClientResponse response = await request.close();
-      print("Api response: $response");
+      debugPrint("Api response: $response");
       // Check the response status code
       if (response.statusCode == HttpStatus.ok) {
         // If the server returns a 200 OK response
@@ -180,7 +180,7 @@ class ApiImageRepository implements ImageRepository {
       }
     } catch (e) {
       // Handle exceptions
-      print('Error: $e');
+      debugPrint('Error: $e');
     }
   }
 }
