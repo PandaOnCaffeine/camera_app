@@ -1,17 +1,19 @@
-import 'dart:typed_data'; // Enable additional file types
-import 'dart:convert'; // Convert to Base64
-// Read file data
+// Dart Imports
+import 'dart:typed_data';
+import 'dart:convert';
 
+// Flutter Imports
 import 'package:flutter/material.dart';
 
-// Pub.Dev Packages
-import 'package:localstorage/localstorage.dart'; // Persist data
+// My Repository
+import '../Repository/image_repository.dart';
 
-// My Services
-import '../Services/api_service.dart';
-
+// Drag And Drop Screen
 class DragNDropScreen extends StatefulWidget {
-  const DragNDropScreen({super.key});
+  const DragNDropScreen({super.key, required this.repository});
+
+  // Repository
+  final ImageRepository repository;
 
   @override
   State<DragNDropScreen> createState() => _DragNDropScreenScreenState();
@@ -27,8 +29,6 @@ class DroppedItem {
 }
 
 class _DragNDropScreenScreenState extends State<DragNDropScreen> {
-  final ApiService apiService = ApiService();
-  final LocalStorage storage = LocalStorage('camera_app_images.json');
   List<String> images = [];
 
   @override
@@ -38,7 +38,7 @@ class _DragNDropScreenScreenState extends State<DragNDropScreen> {
   }
 
   void loadImages() async {
-    var base64ImagesFromStorage = await apiService.getImages();
+    var base64ImagesFromStorage = await widget.repository.getImages();
     // ignore: unnecessary_null_comparison
     images = base64ImagesFromStorage != null
         ? List<String>.from(base64ImagesFromStorage)

@@ -1,13 +1,16 @@
 // Flutter Imports
-import 'package:camera_app/Services/api_service.dart';
 import 'package:flutter/material.dart';
+
+// My Services
+import '../Services/api_auth_service.dart';
 
 /// My Home screen
 /// The first thing you on the app
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required this.apiService});
+  const HomeScreen({super.key, required this.apiAuth});
 
-  final ApiService apiService;
+  // Repository
+  final ApiAuthService apiAuth;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +21,7 @@ class HomeScreen extends StatelessWidget {
             FloatingActionButton(
               child: const Icon(Icons.login),
               onPressed: () {
-                apiService.login();
+                apiAuth.login();
                 debugPrint("Login Clicked");
               },
             )

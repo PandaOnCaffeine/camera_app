@@ -11,21 +11,20 @@ import 'package:go_router/go_router.dart';
 import 'package:camera/camera.dart';
 
 // My Services
-import '../Services/api_service.dart';
+// import '../Services/api_service.dart'; // For Api Service
 
-/// Things to make:
-/// 
-/// JWT Tokens - Done
-/// Repository Pattern - WIP
-/// Integration Test - WIP
-/// Isolate - WIP
-/// Compute - Done
-
+// My Repository
+import '../Repository/image_repository.dart';
 
 class CameraApp extends StatefulWidget {
-  const CameraApp({super.key, required this.apiService, required this.cameras});
+  const CameraApp({super.key, required this.repository, required this.cameras});
 
-  final ApiService apiService;
+  // Repository
+  final ImageRepository repository;
+
+  // Api Service
+  // final ApiService apiService;
+
   final List<CameraDescription> cameras;
   @override
   State<CameraApp> createState() => _CameraAppState();
@@ -109,11 +108,8 @@ class _CameraAppState extends State<CameraApp> {
                       imageBase64 = base64Encode(imageData);
                       debugPrint('Base64 Encoded: Length: ${imageBase64.length} : $imageBase64');
 
-                      /// Api
-                      await widget.apiService.saveImage(imageBase64);
-
-                      /// Local
-                      // await widget.localImageRepository.saveImage(imageBase64);
+                      /// Repository SaveImage
+                      await widget.repository.saveImage(imageBase64);
 
                       // Show snackbar
                       ScaffoldMessenger.of(context).showSnackBar(

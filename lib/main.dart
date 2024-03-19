@@ -1,5 +1,12 @@
+// ignore_for_file: unused_import
+
 // Flutter Imports
 import 'package:flutter/material.dart';
+
+// My Repository
+import '../Repository/image_repository.dart';
+import '../Repository/api_image_repository.dart';
+import '../Repository/local_image_repository.dart';
 
 // Pub.Dev Packages
 import 'package:go_router/go_router.dart';
@@ -15,7 +22,7 @@ import 'Screens/dragndrop_screen.dart';
 import 'Screens/camera_screen.dart';
 
 // My Services
-import 'Services/api_service.dart';
+import 'Services/api_auth_service.dart';
 import 'Services/notification_service.dart';
 
 // Firebase Imports
@@ -31,15 +38,20 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 /// Isolate - WIP
 /// Compute - Done
 
-/// Services and other properties
+/// Services and Other
 // ShellNavigatorKey for Routing
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
-// ApiService for the screens that need the ApiService
-final ApiService _apiService = ApiService();
+/// My Repositories / Change Repository Between LocalStorage and Api
+// final ImageRepository _repository = LocalImageRepository(); // Ùse LocalStorage Repository
+final ImageRepository _repository = ApiImageRepository(); // Use Api Repository
 
-// NOtification service
-final ForegroundNotificationService _notificationService = ForegroundNotificationService();
+// ApiService for the screens that need the ApiService
+final ApiAuthService _apiAuth = ApiAuthService();
+
+// Notification service
+final ForegroundNotifyService _notificationService =
+    ForegroundNotifyService();
 
 // List of cameras for the camera Screen.
 late List<CameraDescription> _cameras;
@@ -48,15 +60,31 @@ late List<CameraDescription> _cameras;
 /// Starts the app
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Starts a firebase instance
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Notification Permissions Request
   _notificationService.requestNotificationPermissions();
+
+  // Foreground Notification
   _notificationService.firebaseInit();
+
+  // Background Notification
+  FirebaseMessaging.onBackgroundMessage(_backgroundHandler);
+
   _cameras = await availableCameras();
   final fcmToken = await FirebaseMessaging.instance.getToken();
   debugPrint("Fcm Token: $fcmToken");
   runApp(const MyApp());
+}
+
+// Background Notification entry point / Allows notification to open app
+@pragma('vm:entry-point')
+Future<void> _backgroundHandler(RemoteMessage message) async {
+  debugPrint("Handling in Background: ${message.messageId}");
 }
 
 /// Go Router
@@ -71,25 +99,25 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: '/',
           builder: (BuildContext context, GoRouterState state) {
-            return HomeScreen(apiService: _apiService);
+            return HomeScreen(apiAuth: _apiAuth);
           },
           routes: <RouteBase>[
             GoRoute(
               path: 'camera',
               builder: (BuildContext context, GoRouterState state) {
-                return CameraApp(apiService: _apiService, cameras: _cameras);
+                return CameraApp(repository: _repository, cameras: _cameras);
               },
             ),
             GoRoute(
               path: 'viewPicture',
               builder: (BuildContext context, GoRouterState state) {
-                return const ViewPictureScreen();
+                return ViewPictureScreen(repository: _repository,);
               },
             ),
             GoRoute(
               path: 'dragNdrop',
               builder: (BuildContext context, GoRouterState state) {
-                return const DragNDropScreen();
+                return DragNDropScreen(repository: _repository,);
               },
             ),
           ],

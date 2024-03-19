@@ -3,7 +3,7 @@ import 'package:localstorage/localstorage.dart';
 // My Image Repository
 import 'image_repository.dart';
 
-class ApiImageRepository implements ImageRepository {
+class LocalImageRepository implements ImageRepository {
   final LocalStorage storage = LocalStorage('camera_app_images.json');
   @override
   Future<void> saveImage(String imageBase64) async {

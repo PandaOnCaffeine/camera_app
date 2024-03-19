@@ -1,24 +1,24 @@
-import 'dart:typed_data'; // Enable additional file types
-import 'dart:convert'; // Convert to Base64
-// Read file data
+// Dart Imports
+import 'dart:typed_data';
+import 'dart:convert';
 
+// Flutter Imports
 import 'package:flutter/material.dart';
 
-// Pub.Dev Packages
-import 'package:localstorage/localstorage.dart'; // Persist data
-
-// My Services
-import '../Services/api_service.dart';
+// My Repository
+import '../Repository/image_repository.dart';
 
 class ViewPictureScreen extends StatefulWidget {
-  const ViewPictureScreen({super.key});
+  const ViewPictureScreen({super.key, required this.repository});
+
+  // Repository
+  final ImageRepository repository;
+
   @override
   State<ViewPictureScreen> createState() => _ViewPictureScreenState();
 }
 
 class _ViewPictureScreenState extends State<ViewPictureScreen> {
-  final ApiService apiService = ApiService();
-  final LocalStorage storage = LocalStorage('camera_app_images.json');
   List<Uint8List> images = [];
 
   @override
@@ -28,25 +28,8 @@ class _ViewPictureScreenState extends State<ViewPictureScreen> {
   }
 
   void loadImages() async {
-    /* LocalStorage
-    // Wait for localstorage to be ready for read/write operations
-    await storage.ready;
-
-    // return the images item from storage
-    dynamic base64ImagesFromStorage = storage.getItem('images');
-
-
-    // change from dynamic to List of strings
-    List<String> base64Images = base64ImagesFromStorage != null
-        ? List<String>.from(base64ImagesFromStorage)
-        : [];
-    // decode from base64 LOCALSTORAGE
-    images =
-        base64Images.map((base64Image) => base64Decode(base64Image)).toList();
-    */
-
-    // API call
-    List<String> response = await apiService.getImages();
+    // Repository GetImages
+    List<String> response = await widget.repository.getImages();
 
     // decode from base64 API
     images = response.map((response) => base64Decode(response)).toList();

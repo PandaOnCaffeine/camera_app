@@ -11,7 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 /// Foreground Notification only shows when user is in the app
-class ForegroundNotificationService {
+class ForegroundNotifyService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -92,12 +92,14 @@ class ForegroundNotificationService {
     AndroidNotificationChannel channel = AndroidNotificationChannel(
       message.notification!.android!.channelId.toString(),
       message.notification!.android!.channelId.toString(),
+      // Needs to be max, or else it will be ignored
       importance: Importance.max,
       showBadge: true,
       playSound: true,
       //sound: const RawResourceAndroidNotificationSound('jetsons_doorbell')
     );
 
+    // How it should look
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
             channel.id.toString(), channel.name.toString(),
