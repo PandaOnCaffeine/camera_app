@@ -23,7 +23,6 @@ class ApiImageRepository implements ImageRepository {
         return;
       }
 
-
       // BaseUrl With Endpoint
       String uriString = "$_apiUri/Camera/PostImage";
       var uri = Uri.parse(uriString);
@@ -133,54 +132,6 @@ class ApiImageRepository implements ImageRepository {
       // Handle exceptions
       debugPrint('Error: $e');
       throw Exception('Failed to get images: $e');
-    }
-  }
-
-  Future<void> login() async {
-    try {
-      // BaseUrl With Endpoint
-      String uriString = "$_apiUri/Camera/Login";
-      var uri = Uri.parse(uriString);
-
-      // Encode the request body
-      Map<String, String> requestBody = {
-        'Username': "TestUser",
-        'Password': "TestPassword"
-      };
-      // JsonEncode RequestBody
-      String requestBodyJson = jsonEncode(requestBody);
-
-      HttpClient httpClient = HttpClient()
-        ..badCertificateCallback =
-            (X509Certificate cert, String host, int port) =>
-                true; // Only for Testing. Not recomended for production
-
-      var request = await httpClient.postUrl(uri);
-
-      // Set headers
-      request.headers.contentType = ContentType.json;
-      request.headers.add('accept', '*/*');
-
-      // Write the request body
-      request.write(requestBodyJson);
-
-      // Close the request and get the response
-      HttpClientResponse response = await request.close();
-      debugPrint("Api response: $response");
-      // Check the response status code
-      if (response.statusCode == HttpStatus.ok) {
-        // If the server returns a 200 OK response
-
-        storage.ready;
-        storage.setItem('jwt_key', response);
-        // storage.setItem('refresh_key', value)
-      } else {
-        // If the server did not return a 200 OK response, throw an exception
-        throw Exception('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      // Handle exceptions
-      debugPrint('Error: $e');
     }
   }
 }

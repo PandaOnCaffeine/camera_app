@@ -16,8 +16,8 @@ class ApiAuthService {
 
       // Encode the request body
       Map<String, String> requestBody = {'Username': "u", 'Password': "p"};
+      
       // JsonEncode RequestBody
-
       String requestBodyJson = jsonEncode(requestBody);
 
       HttpClient httpClient = HttpClient()

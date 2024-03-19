@@ -33,10 +33,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 /// Things to make:
 ///
 /// JWT Tokens - Done
-/// Repository Pattern - WIP
+/// Repository Pattern - Done
 /// Integration Test - WIP
 /// Isolate - WIP
 /// Compute - Done
+/// Foreground Notification - Done
+/// BackGround Notification - Done
 
 /// Services and Other
 // ShellNavigatorKey for Routing

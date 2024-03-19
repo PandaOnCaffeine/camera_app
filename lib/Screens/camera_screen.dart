@@ -1,7 +1,7 @@
 // Dart Imports
-import 'dart:typed_data'; 
-import 'dart:convert'; 
-import 'dart:io'; 
+import 'dart:typed_data';
+import 'dart:convert';
+import 'dart:io';
 
 // Flutter Imports
 import 'package:flutter/material.dart';
@@ -32,7 +32,8 @@ class CameraApp extends StatefulWidget {
 
 class _CameraAppState extends State<CameraApp> {
   /// Scaffold Key for snackBar further down in the class
-  final GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey<ScaffoldMessengerState>();
+  final GlobalKey<ScaffoldMessengerState> _scaffoldKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   late CameraController controller;
 
@@ -77,62 +78,65 @@ class _CameraAppState extends State<CameraApp> {
       key: _scaffoldKey,
       body: Column(
         children: [
-          CameraPreview(
-            controller,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FloatingActionButton(
-                    heroTag: "BackButton",
-                    child: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 50),
-                  FloatingActionButton(
-                    heroTag: "TakePictureButton",
-                    shape: const CircleBorder(),
-                    onPressed: () async {
-                      XFile file = await controller.takePicture();
-                      debugPrint('Picture saved at ${file.path}');
+          Expanded(
+            child: CameraPreview(
+              controller,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom:25),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: "BackButton",
+                      child: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const SizedBox(width: 50),
+                    FloatingActionButton(
+                      heroTag: "TakePictureButton",
+                      shape: const CircleBorder(),
+                      onPressed: () async {
+                        XFile file = await controller.takePicture();
+                        debugPrint('Picture saved at ${file.path}');
 
-                      // Read the file
-                      imageData = await File(file.path).readAsBytes();
-                      debugPrint('ImageData : $imageData');
+                        // Read the file
+                        imageData = await File(file.path).readAsBytes();
+                        debugPrint('ImageData : $imageData');
 
-                      // Encode image data to base64
-                      imageBase64 = base64Encode(imageData);
-                      debugPrint('Base64 Encoded: Length: ${imageBase64.length} : $imageBase64');
+                        // Encode image data to base64
+                        imageBase64 = base64Encode(imageData);
+                        debugPrint(
+                            'Base64 Encoded: Length: ${imageBase64.length} : $imageBase64');
 
-                      /// Repository SaveImage
-                      await widget.repository.saveImage(imageBase64);
+                        /// Repository SaveImage
+                        await widget.repository.saveImage(imageBase64);
 
-                      // Show snackbar
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Picture taken'),
-                        ),
-                      );
+                        // Show snackbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Picture taken'),
+                          ),
+                        );
 
-                      // Update the UI
-                      setState(() {});
-                    },
-                    child: (const Icon(Icons.camera_alt)),
-                  ),
-                  const SizedBox(width: 50),
-                  FloatingActionButton(
-                    heroTag: "GalleryButton",
-                    child: const Icon(Icons.image_search),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      context.go('/viewPicture');
-                    },
-                  ),
-                ],
+                        // Update the UI
+                        setState(() {});
+                      },
+                      child: (const Icon(Icons.camera_alt)),
+                    ),
+                    const SizedBox(width: 50),
+                    FloatingActionButton(
+                      heroTag: "GalleryButton",
+                      child: const Icon(Icons.image_search),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.go('/viewPicture');
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
