@@ -25,3 +25,4 @@ samples, guidance on mobile development, and a full API reference.
 
 `flutter pub add firebase_core`
 `flutter pub add firebase_messaging`
+`flutter pub add flutter_local_notifications`

@@ -15,7 +15,8 @@ import 'Screens/dragndrop_screen.dart';
 import 'Screens/camera_screen.dart';
 
 // My Services
-import 'API/api_service.dart';
+import 'Services/api_service.dart';
+import 'Services/notification_service.dart';
 
 // Firebase Imports
 import 'package:firebase_core/firebase_core.dart';
@@ -23,13 +24,12 @@ import 'firebase_options.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 /// Things to make:
-/// 
+///
 /// JWT Tokens - Done
 /// Repository Pattern - WIP
 /// Integration Test - WIP
 /// Isolate - WIP
 /// Compute - Done
-
 
 /// Services and other properties
 // ShellNavigatorKey for Routing
@@ -45,9 +45,10 @@ late List<CameraDescription> _cameras;
 /// Starts the app
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  requestNotificationPermissions();
   _cameras = await availableCameras();
   final fcmToken = await FirebaseMessaging.instance.getToken();
   print("Fcm Token: $fcmToken");
@@ -66,7 +67,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: '/',
           builder: (BuildContext context, GoRouterState state) {
-            return const HomeScreen();
+            return HomeScreen(apiService: _apiService);
           },
           routes: <RouteBase>[
             GoRoute(

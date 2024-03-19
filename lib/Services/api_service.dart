@@ -13,11 +13,10 @@ class ApiService {
       // Get Jwt Token
       storage.ready;
       final String jwt = storage.getItem('jwt_key');
-      if(jwt.isEmpty){
+      if (jwt.isEmpty) {
         print("No JWT TOKEN");
         return;
       }
-
 
       // BaseUrl With Endpoint
       String uriString = "$_apiUri/Camera/PostImage";
@@ -60,7 +59,8 @@ class ApiService {
 
         ///
         /// Compute
-        final parsedResponse = await compute(jsonDecode,responseBody);
+        final parsedResponse = await compute(jsonDecode, responseBody);
+
         ///
         print('Response: $parsedResponse');
       } else {
@@ -98,7 +98,7 @@ class ApiService {
       var request = await httpClient.getUrl(uri);
 
       // Set headers
-      request.headers.add('accept', 'text/plain');
+      request.headers.add('accept', '*/*');
       request.headers.add('Authorization', 'Bearer $jwt');
 
       // Close the request and get the response
@@ -137,11 +137,9 @@ class ApiService {
       var uri = Uri.parse(uriString);
 
       // Encode the request body
-      Map<String, String> requestBody = {
-        'Username': "TestUser",
-        'Password': "TestPassword"
-      };
+      Map<String, String> requestBody = {'Username': "u", 'Password': "p"};
       // JsonEncode RequestBody
+
       String requestBodyJson = jsonEncode(requestBody);
 
       HttpClient httpClient = HttpClient()
@@ -160,12 +158,19 @@ class ApiService {
 
       // Close the request and get the response
       HttpClientResponse response = await request.close();
-      print("Api response: $response");
+      print("Api response: ${response.statusCode}");
       // Check the response status code
       if (response.statusCode == HttpStatus.ok) {
+        String responseBody = await response.transform(utf8.decoder).join();
+        dynamic parsedResponse = jsonDecode(responseBody);
+
+        // Extracting the token value from the parsed JSON object
+        var token = parsedResponse['token'];
+        print("Token: $token");
+
         // If the server returns a 200 OK response
-        storage.ready;
-        storage.setItem('jwt_key', response);
+        await storage.ready;
+        storage.setItem('jwt_key', token);
       } else {
         // If the server did not return a 200 OK response, throw an exception
         throw Exception('Error: ${response.statusCode}');

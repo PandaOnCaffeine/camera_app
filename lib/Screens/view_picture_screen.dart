@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart'; // Persist data
 
 // My Services
-import '../API/api_service.dart';
+import '../Services/api_service.dart';
 
 class ViewPictureScreen extends StatefulWidget {
   const ViewPictureScreen({super.key});
