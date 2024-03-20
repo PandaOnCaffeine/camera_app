@@ -31,7 +31,7 @@ class ForegroundNotifyService {
   }
 
   void firebaseInit() {
-    // FirebaseMessaging.instance.subscribeToTopic("Test");
+    FirebaseMessaging.instance.subscribeToTopic("TestNotify");
 
     FirebaseMessaging.onMessage.listen((message) {
       RemoteNotification? notification = message.notification;

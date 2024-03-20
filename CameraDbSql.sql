@@ -1,0 +1,25 @@
+USE CameraDB
+DROP TABLE Images;
+GO
+CREATE TABLE Images (
+	id INT IDENTITY(1,1),
+	imageBase64 TEXT
+)
+
+GO
+CREATE OR ALTER PROCEDURE SaveImage @ImageBase64 TEXT
+AS
+BEGIN
+	INSERT INTO Images (imageBase64) VALUES (@ImageBase64)
+END
+GO
+
+CREATE OR ALTER PROCEDURE GetImages
+AS
+BEGIN
+	SELECT 
+		id AS Id,
+		imageBase64 AS ImageBase64
+	FROM Images
+END
+GO
