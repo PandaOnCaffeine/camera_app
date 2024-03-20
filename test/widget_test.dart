@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:camera_app/main.dart';
 
 // import 'package:camera_app/Screens/view_picture_screen.dart';
