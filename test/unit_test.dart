@@ -1,57 +1,38 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
-// import 'package:mockito/mockito.dart';
-// import 'package:camera/camera.dart';
-// import 'package:camera_app/API/api_service.dart';
-// import 'package:camera_app/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 
-// // Define a mock class for CameraController
-// class MockCameraController extends Mock implements CameraController {}
+import 'package:camera_app/Services/api_auth_service.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:camera_app/main.dart';
 
-// // Mock ApiService
-// class MockApiService extends Mock implements ApiService {}
+// Mock ApiService
+class MockApiAuthService extends Mock implements ApiAuthService {}
 
-// void main() {
-//   group('CameraApp Widget', () {
-//     late CameraController mockCameraController;
-//     late ApiService mockApiService;
-//     const mockCameraDescription = CameraDescription(
-//       name: 'mock_camera',
-//       lensDirection: CameraLensDirection.back,
-//       sensorOrientation: 0,
-//     );
+void main() {
+  group('Api Auth', () {
+    late ApiAuthService mockApiAuthService;
+    final storage = LocalStorage('my_jwt_data.json');
 
-//     setUp(() {
-//       mockCameraController = MockCameraController();
-//       mockApiService = MockApiService();
-//     });
 
-//     testWidgets('Test taking a picture', (WidgetTester tester) async {
-//       // Mock available cameras
-//       when(availableCameras()).thenAnswer((_) async => [mockCameraDescription]);
+    setUp(() {
+      mockApiAuthService = MockApiAuthService();
+    });
 
-//       // Mock initialization of CameraController
-//       when(mockCameraController.initialize()).thenAnswer((_) async {});
+    testWidgets('Test Saving a JWT Token', (WidgetTester tester) async {
 
-//       // Mock taking a picture
-//       when(mockCameraController.takePicture())
-//           .thenAnswer((_) async => XFile('path/to/image'));
+      // Call ApiAuth Login Method
+      mockApiAuthService.login();
 
-//       // Build CameraApp widget with mocked dependencies
-//       await tester.pumpWidget(CameraApp(
-//           cameraController: mockCameraController, apiService: mockApiService));
+      // Verify that ApiAuth.Login Method is called once
+      verify(mockApiAuthService.login()).called(1);
 
-//       // Verify that CameraPreview is rendered
-//       expect(find.byType(CameraPreview), findsOneWidget);
+      // Get Jwt Token
+      await storage.ready;
+      final String jwt = await storage.getItem('jwt_key');
 
-//       // Simulate pressing the take picture button
-//       await tester.tap(find.byType(FloatingActionButton).at(1));
-//       await tester.pump();
-
-// // Verify that the picture is taken and the ApiService.saveImage method is called
-//       verify(mockApiService
-//               .saveImage("asd"))
-//           .called(1);
-//     });
-//   });
-// }
+      // Expect jwt token is not null
+      expect(jwt, isNotNull);
+    });
+  });
+}
